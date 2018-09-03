@@ -7,6 +7,9 @@ fun main(args: Array<String>) {
     println(facebookUser.nickName)
 
     println(Person2.Loader.fromJson("json string"))
+    println(loadFromJSON(Person3))
+
+    println(Person4.fromJson("jsontext"))
 
 }
 
@@ -44,8 +47,21 @@ interface JSONFactory<T> {
 
 class Person3(val name: String) {
     companion object : JSONFactory<Person3>{
-        override fun fromJSON(jsonText: String): Person3 {
+       @JvmStatic override fun fromJSON(jsonText: String): Person3 {
             return Person3("Person's Name")
         }
+    }
+
+}
+
+fun <T> loadFromJSON(factory: JSONFactory<T>) : T {
+    return factory.fromJSON("jsonText")
+}
+
+// seperate deserialization from core Person buisness logic
+
+data class Person4(val name: String, val age:Int) {
+    companion object {
+
     }
 }
